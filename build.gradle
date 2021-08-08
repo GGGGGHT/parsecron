@@ -21,7 +21,25 @@ compileTestKotlin {
 }
 
 repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+    maven {
+        url 'https://raw.github.com/Raizlabs/maven-releases/master/releases'
+    }
+    maven {
+        url 'http://oss.sonatype.org/content/repositories/snapshots'
+        allowInsecureProtocol = true
+    }
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+    maven {
+        url 'https://maven.google.com'
+    }
+    google()
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -34,6 +52,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version = '2021.2'
+    plugins = ['com.intellij.java']
 }
 
 patchPluginXml {
