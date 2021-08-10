@@ -20,7 +20,6 @@ import java.time.temporal.Temporal;
 import java.time.temporal.ValueRange;
 
 import org.springframework.lang.Nullable;
-import org.springframework.scheduling.support.CronExpression;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -31,7 +30,7 @@ import org.springframework.util.StringUtils;
  * @author Arjen Poutsma
  * @since 5.3
  */
-public final class BitsCronField extends CronField {
+final class BitsCronField extends CronField {
 
 	private static final long MASK = 0xFFFFFFFFFFFFFFFFL;
 
@@ -43,7 +42,7 @@ public final class BitsCronField extends CronField {
 	// we store at most 60 bits, for seconds and minutes, so a 64-bit long suffices
 	private long bits;
 
-	static final int MAX_ATTEMPTS = 366;
+
 	private BitsCronField(Type type) {
 		super(type);
 	}
@@ -189,7 +188,7 @@ public final class BitsCronField extends CronField {
 		else {
 			int count = 0;
 			current = type().get(temporal);
-			while (current != next && count++ < MAX_ATTEMPTS) {
+			while (current != next && count++ < 366) {
 				temporal = type().elapseUntil(temporal, next);
 				current = type().get(temporal);
 				next = nextSetBit(current);
@@ -198,7 +197,7 @@ public final class BitsCronField extends CronField {
 					next = nextSetBit(0);
 				}
 			}
-			if (count >= MAX_ATTEMPTS) {
+			if (count >= 366) {
 				return null;
 			}
 			return type().reset(temporal);

@@ -9,16 +9,16 @@
        on how to target different products -->
   <depends>com.intellij.modules.platform</depends>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
-    <!--        <themeProvider id="5c024862-10e5-491d-b509-743f5ca95564" path="/t.theme.json"/>-->
-  </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+<!--        <themeProvider id="5c024862-10e5-491d-b509-743f5ca95564" path="/t.theme.json"/>-->
+    </extensions>
 
-  <actions>
-    <!--        <action class="PopupDialogAction" text="Static Grouped Actions" description="sdk">-->
-    <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
-    <!--            <override-text place="MainMenu" text="Pop Dialog Action" />-->
-    <!--            <override-text place="MainMenu" text="Pop Dialog Action" />-->
+    <actions>
+        <!--        <action class="PopupDialogAction" text="Static Grouped Actions" description="sdk">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+        <!--            <override-text place="MainMenu" text="Pop Dialog Action" />-->
+        <!--            <override-text place="MainMenu" text="Pop Dialog Action" />-->
 
     <!--            <keyboard-shortcut first-keystroke="control alt A" keymap="$default"/>-->
 
@@ -59,4 +59,7 @@
       <add-to-group group-id="ToolsMenu" anchor="last"/>
     </action>
   </actions>
+  <extensions defaultExtensionNs="com.intellij" >
+    <lang.documentationProvider language="JAVA" implementationClass="SimpleDocumentationProvider"/>
+  </extensions>
 </idea-plugin>

@@ -7,7 +7,8 @@ public data class LinuxCronExpression(
     val day: CronField,
     val month: CronField,
     val dayOfWeek: CronField,
-    val fields: List<CronField>
+    val fields: List<CronField>,
+    val expression: String
 ) {
     companion object {
         fun parse(cron: Array<String>): LinuxCronExpression {
@@ -17,18 +18,23 @@ public data class LinuxCronExpression(
             val months = CronField.parseMonth(cron[3])
             val daysOfWeek = CronField.parseDaysOfWeek(cron[4])
 
-            println("Linux Cron Expression")
             return LinuxCronExpression(
                 minutes,
                 hours,
                 daysOfMonth,
                 months,
                 daysOfWeek,
-                listOf(minutes, hours, daysOfMonth, months, daysOfWeek)
+                listOf(daysOfWeek, months, daysOfMonth, hours, minutes, CronField.zeroNanos()),
+                cron.joinToString(" ")
             )
 
         }
 
+    }
+
+    val MAX_ATTEMPTS = 366
+    override fun toString(): String {
+        return this.expression
     }
 
     fun <T> next(temporal: T): T? where T : Temporal?, T : Comparable<T>? {
@@ -37,8 +43,8 @@ public data class LinuxCronExpression(
 
     private fun <T> nextOrSame(temporal: T): T? where T : Temporal?, T : Comparable<T>? {
         var temporal = temporal
-        for (i in 0 until 366) {
-            val result: T = nextOrSameInternal<T>(temporal)
+        for (i in 0 until MAX_ATTEMPTS) {
+            val result: T? = nextOrSameInternal(temporal)
             if (result == null || result == temporal) {
                 return result
             }
@@ -47,12 +53,12 @@ public data class LinuxCronExpression(
         return null
     }
 
-    private fun <T> nextOrSameInternal(temporal: T): T where T : Temporal?, T : Comparable<T>? {
+    private fun <T> nextOrSameInternal(temporal: T): T? where T : Temporal?, T : Comparable<T>? {
         var temporal: T = temporal
         for (field in fields) {
             temporal = field.nextOrSame(temporal)
             if (temporal == null) {
-                return temporal
+                return null
             }
         }
         return temporal
