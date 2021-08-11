@@ -60,6 +60,6 @@
     </action>
   </actions>
   <extensions defaultExtensionNs="com.intellij" >
-    <lang.documentationProvider language="JAVA" implementationClass="SimpleDocumentationProvider"/>
+    <lang.documentationProvider language="SQL" implementationClass="SimpleDocumentationProvider"/>
   </extensions>
 </idea-plugin>
